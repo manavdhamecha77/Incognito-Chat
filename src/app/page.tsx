@@ -1,6 +1,8 @@
 "use client"
 import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
+import { useMutation } from "@tanstack/react-query";
+import { client } from "@/lib/client";
 
 const NAMES = ["thor","hulk","sentry","spidy","captian","bucky","stark","groot","rocket","fantastic","cyclops"]
 const STORAGE_KEY = "chat_username"
@@ -29,6 +31,12 @@ export default function Home() {
     main()
   }, [])
 
+  const {mutate : createRoom} = useMutation({
+    mutationFn: async () => {
+      const res = await client.room.create.post()
+    }
+  })
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-4">
       <div className="w-full max-w-md space-y-8">
@@ -51,7 +59,7 @@ export default function Home() {
             </div>
           </div>
 
-          <button className="w-full bg-zinc-100 text-black p-3 text-sm font-bold hover:bg-zonc-50 hover:text-black transition-colors mt-4 cursor-pointer disabled:opacity-50">CREATE SECURE ROOM</button>
+          <button onClick={() => createRoom()} className="w-full bg-zinc-100 text-black p-3 text-sm font-bold hover:bg-zonc-50 hover:text-black transition-colors mt-4 cursor-pointer disabled:opacity-50">CREATE SECURE ROOM</button>
         </div>
       </div>
     </main>
