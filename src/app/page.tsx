@@ -1,4 +1,34 @@
+"use client"
+import { useEffect, useState } from "react";
+import { nanoid } from "nanoid";
+
+const NAMES = ["thor","hulk","sentry","spidy","captian","bucky","stark","groot","rocket","fantastic","cyclops"]
+const STORAGE_KEY = "chat_username"
+
+const generateUsername = () => {
+  const word = NAMES[Math.floor(Math.random() * NAMES.length)]
+  return `anonymous-${word}-${nanoid(5)}`
+}
+
 export default function Home() {
+  const [username,setUsername] = useState("");
+
+  useEffect(() => {
+    const main = () => {
+      const stored = localStorage.getItem(STORAGE_KEY)
+
+      if(stored) {
+        setUsername(stored)
+        return 
+      }
+
+      const generated = generateUsername()
+      localStorage.setItem(STORAGE_KEY, generated)
+      setUsername(generated)
+    }
+    main()
+  }, [])
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-4">
       <div className="w-full max-w-md space-y-8">
@@ -7,7 +37,7 @@ export default function Home() {
             <div className="space-y-2">
               <label className="flex items-center text-zinc-500">Your Identity</label>
               <div className="flex items-center gap-3">
-                <div className="flex-1 bg-zinc-950 border border-zinc-800 p-3 text-sm text-zinc-400 font-mono">username</div>
+                <div className="flex-1 bg-zinc-950 border border-zinc-800 p-3 text-sm text-zinc-400 font-mono">{username}</div>
               </div>
             </div>
           </div>
