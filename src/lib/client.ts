@@ -1,4 +1,13 @@
+"use client"
+
 import { treaty } from '@elysiajs/eden'
 import type { App } from '../app/api/[[...slugs]]/route'
- 
-export const client = treaty<App>('localhost:3000').api 
+
+const getBaseUrl = () => {
+  if (typeof window === 'undefined') {
+    return 'http://localhost:3000'
+  }
+  return window.location.origin
+}
+
+export const client = treaty<App>(getBaseUrl()).api
