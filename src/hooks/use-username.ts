@@ -1,11 +1,11 @@
 import { nanoid } from "nanoid"
 import { useEffect, useState } from "react"
 
-const NAMES = ["thor","hulk","sentry","spidy","captian","bucky","stark","groot","rocket","fantastic","cyclops"]
+const POKEMON = ["pikachu","squirtle","charmander","bulbasaur","psyduck","gastly","geodude","mew","gengar","togepie","digglet","pichu","ditto","caterpie","evee"]
 const STORAGE_KEY = "chat_username"
 
 const generateUsername = () => {
-  const word = NAMES[Math.floor(Math.random() * NAMES.length)]
+  const word = POKEMON[Math.floor(Math.random() * POKEMON.length)]
   return `anonymous-${word}-${nanoid(5)}`
 }
 
