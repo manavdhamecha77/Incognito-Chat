@@ -17,3 +17,70 @@ body {
   color: var(--foreground);
   font-family: var(--font-jetbrains-mono);
 }
+
+.theme-root {
+  background: #f4f4f0;
+  color-scheme: light;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+.theme-root[data-theme="dark"] {
+  background: #18181b;
+  color-scheme: dark;
+}
+
+.theme-root[data-theme="dark"] .bg-white {
+  background-color: #27272a;
+}
+
+.theme-root[data-theme="dark"] .text-black {
+  color: #f4f4f5;
+}
+
+.theme-root[data-theme="dark"] .text-zinc-800 {
+  color: #d4d4d8;
+}
+
+.theme-root[data-theme="dark"] .text-zinc-500 {
+  color: #a1a1aa;
+}
+
+.theme-root[data-theme="dark"] .text-zinc-700 {
+  color: #d4d4d8;
+}
+
+.theme-root[data-theme="dark"] .border-black {
+  border-color: #f4f4f5;
+}
+
+.theme-root[data-theme="dark"] :is(.bg-yellow-100, .bg-red-300, .bg-red-400, .bg-orange-300, .bg-lime-200, .bg-lime-400, .bg-cyan-200, .bg-cyan-400) {
+  color: #000;
+}
+
+.theme-root[data-theme="dark"] .theme-divider {
+  background-color: #f4f4f5;
+}
+
+.theme-root[data-theme="dark"] .theme-timestamp {
+  color: #d4d4d8;
+}
+
+.theme-root[data-theme="dark"] .theme-message-input,
+.theme-root[data-theme="dark"] .theme-message-input:focus {
+  background-color: #27272a;
+  color: #fafafa;
+  caret-color: #a3e635;
+}
+
+.theme-root[data-theme="dark"] .theme-message-input::placeholder {
+  color: #a1a1aa;
+  opacity: 1;
+}
+
+.theme-root[data-theme="dark"] .bg-red-300 .text-zinc-800 {
+  color: #27272a;
+}
+
+.theme-root[data-theme="dark"] :is(input, select):focus {
+  color: #000;
+}

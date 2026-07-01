@@ -8,6 +8,7 @@ import { format } from "date-fns";
 import { useState, useRef, useEffect } from "react";
 import { useRealtime } from "@/lib/realtime-client";
 import { useRouter } from "next/navigation";
+import { useTheme } from "@/hooks/use-theme";
 
 const formatTimeRemaining = (seconds: number) => {
   const mins = Math.floor(seconds / 60);
@@ -20,6 +21,7 @@ const Page = () => {
   const roomId = params.roomId as string;
 
   const router = useRouter();
+  const { theme, toggleTheme } = useTheme();
 
   const { username } = useUsername()
   const [input,setInput] = useState("")
@@ -104,7 +106,11 @@ const Page = () => {
   };
 
   return (
-    <main className="flex flex-col h-screen max-h-screen overflow-hidden bg-[#f4f4f0]">
+    <main
+      className="theme-root flex flex-col h-screen max-h-screen overflow-hidden"
+      data-theme={theme}
+      suppressHydrationWarning
+    >
       <header className="border-b-4 border-black p-3 sm:p-4 flex items-center justify-between bg-white gap-2 sm:gap-0">
         <div className="flex items-center gap-2 sm:gap-4 shrink overflow-hidden">
           <div className="flex flex-col shrink overflow-hidden">
@@ -119,7 +125,7 @@ const Page = () => {
               </button>
             </div>
           </div>
-          <div className="h-8 w-1 bg-black shrink-0" />
+          <div className="theme-divider h-8 w-1 bg-black shrink-0" />
           <div className="flex flex-col shrink-0">
             <span className="text-[9px] sm:text-[10px] text-black font-black uppercase tracking-wider font-mono">
               Self-Destruct
@@ -133,18 +139,29 @@ const Page = () => {
             </span>
           </div>
         </div>
-        <button
+        <div className="flex items-center gap-2 shrink-0">
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className="bg-white border-2 border-black px-2 py-1.5 text-[9px] sm:text-xs text-black font-black font-mono uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-px hover:-translate-y-px active:translate-x-px active:translate-y-px active:shadow-none transition-all cursor-pointer rounded-none"
+            aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+            title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+          >
+            {theme === "light" ? "Dark" : "Light"}
+          </button>
+          <button
           onClick={() => destroyRoom()}
           title="Destroy Now"
           className="shrink-0 text-xs sm:text-sm bg-red-400 hover:bg-red-500 border-3 border-black px-3 py-1.5 text-black font-black uppercase tracking-wider transition-all group flex items-center justify-center gap-1.5 sm:gap-2 disabled:opacity-50 cursor-pointer shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] rounded-none"
         >
           <span className="text-base sm:text-sm group-hover:animate-pulse">💣</span>
           <span className="hidden sm:inline">Destroy Now</span>
-        </button>
+          </button>
+        </div>
       </header>
       
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-6 scrollbar-thin bg-[#f4f4f0]">
+      <div className="flex-1 overflow-y-auto p-4 space-y-6 scrollbar-thin">
         {messages?.messages.length === 0 && (
           <div className="flex items-center justify-center h-full">
             <p className="text-zinc-700 text-xs sm:text-sm font-black font-mono text-center uppercase tracking-wide border-2 border-dashed border-zinc-400 p-6 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
@@ -160,7 +177,7 @@ const Page = () => {
                 <span className={`text-[9px] font-black uppercase tracking-wider border-2 border-black px-1.5 py-0.5 font-mono shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] ${msg.sender === username ? "bg-lime-200 text-black" : "bg-cyan-200 text-black"}`}>
                   {msg.sender === username ? "YOU" : msg.sender}
                 </span>
-                <span className="text-[9px] text-zinc-700 font-mono" >{format(msg.timestamp, "HH:mm")}</span>
+                <span className="theme-timestamp text-[9px] text-zinc-700 font-mono">{format(msg.timestamp, "HH:mm")}</span>
               </div>
               <div className="bg-white border-3 border-black p-3.5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-none">
                 <p className="text-xs sm:text-sm text-black leading-relaxed break-all font-mono font-medium">{msg.text}</p>
@@ -190,7 +207,7 @@ const Page = () => {
                 }
               }}
               onChange={(e) => setInput(e.target.value)}
-              className="w-full bg-white border-3 border-black focus:bg-yellow-50 focus:outline-none transition-colors text-black placeholder:text-zinc-500 py-3 pl-8 pr-3 text-xs sm:text-sm rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+              className="theme-message-input w-full bg-white border-3 border-black focus:bg-yellow-50 focus:outline-none transition-colors text-black placeholder:text-zinc-500 py-3 pl-8 pr-3 text-xs sm:text-sm rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
             />
           </div>
           <button

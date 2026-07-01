@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { client } from "@/lib/client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useUsername } from "@/hooks/use-username";
+import { useTheme } from "@/hooks/use-theme";
 import { Suspense, useState } from "react";
 
 const Page = () => {
@@ -15,6 +16,7 @@ const Page = () => {
 
 function Home() {
   const { username } = useUsername();
+  const { theme, toggleTheme } = useTheme();
   const router = useRouter();
 
   const searchParams = useSearchParams()
@@ -25,7 +27,6 @@ function Home() {
   const [roomIdInput, setRoomIdInput] = useState("");
   const [maxSize, setMaxSize] = useState(50);
   const [ttl, setTtl] = useState(600);
-
   const handleJoinRoom = (e: React.FormEvent) => {
     e.preventDefault();
     let trimmed = roomIdInput.trim();
@@ -54,7 +55,11 @@ function Home() {
   });
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-4">
+    <main
+      className="theme-root flex min-h-screen flex-col items-center justify-center p-4"
+      data-theme={theme}
+      suppressHydrationWarning
+    >
       <div className="w-full max-w-md space-y-8">
       
         {wasDestroyed && <div className="bg-red-300 border-4 border-black p-4 text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
@@ -74,16 +79,24 @@ function Home() {
         
         <div className="text-center space-y-2">
           <h1 className="text-4xl font-black tracking-tighter text-black uppercase">
-            {">"}Incognito
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="cursor-pointer transition-transform hover:-translate-y-0.5 focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-current"
+              aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+              title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+            >
+              {">"}Incognito
+            </button>
           </h1>
           <p className="text-black text-xs font-mono uppercase tracking-wider">
             A private, self-destrucive chat-room.
           </p>
         </div>
 
-        <div className="relative border-4 border-black bg-white p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] space-y-6">
+        <div className="border-4 border-black bg-white p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] space-y-6">
           {/* Top-Right Toggle Switcher */}
-          <div className="absolute top-4 right-4 flex gap-1.5">
+          <div className="flex justify-end gap-3 pb-2">
             <button
               type="button"
               onClick={() => setActiveTab("create")}
@@ -109,7 +122,7 @@ function Home() {
           </div>
 
           {/* Your Identity */}
-          <div className="space-y-2 max-w-[55%] sm:max-w-none">
+          <div className="space-y-2">
             <label className="flex items-center text-black font-black uppercase tracking-wider text-xs font-mono">
               Your Identity
             </label>
