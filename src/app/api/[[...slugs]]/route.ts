@@ -1,4 +1,4 @@
-import { Elysia, t } from "elysia";
+import { Elysia } from "elysia";
 import { nanoid } from "nanoid";
 import { redis } from "@/lib/redis";
 import { authMiddleware } from "./auth";
@@ -8,18 +8,33 @@ import { realtime, Message } from "@/lib/realtime";
 const ROOM_TTL_SECONDS = 60 * 10;
 
 const rooms = new Elysia({ prefix: "/room" })
-  .post("/create", async () => {
-    const roomId = nanoid();
+  .post(
+    "/create",
+    async ({ body }) => {
+      const { maxSize, ttl } = body;
+      const roomId = nanoid();
 
-    await redis.hset(`meta:${roomId}`, {
-      connected: [],
-      createdAt: Date.now(),
-    });
+      const finalMaxSize = maxSize ? Number(maxSize) : 50;
+      const finalTtl = ttl ? Number(ttl) : 600;
 
-    await redis.expire(`meta:${roomId}`, ROOM_TTL_SECONDS);
+      await redis.hset(`meta:${roomId}`, {
+        connected: [],
+        createdAt: Date.now(),
+        maxSize: finalMaxSize,
+        ttl: finalTtl,
+      });
 
-    return { roomId };
-  })
+      await redis.expire(`meta:${roomId}`, finalTtl);
+
+      return { roomId };
+    },
+    {
+      body: z.object({
+        maxSize: z.number().min(2).max(100).optional(),
+        ttl: z.number().min(60).max(86400).optional(),
+      }),
+    }
+  )
   .use(authMiddleware)
   .get(
     "/ttl",

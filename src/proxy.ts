@@ -10,7 +10,7 @@ export const proxy = async (req: NextRequest) => {
 
   const roomId = roomMatch[1];
 
-  const meta = await redis.hgetall<{ connected: string[]; createdAt: number }>(
+  const meta = await redis.hgetall<{ connected: string[]; createdAt: number; maxSize?: string }>(
     `meta:${roomId}`,
   );
   if (!meta) {
@@ -23,8 +23,8 @@ export const proxy = async (req: NextRequest) => {
     return NextResponse.next()
   }
 
-  // 50 people room limit
-  if(meta.connected.length >= 50) {
+  const maxSize = meta.maxSize ? parseInt(meta.maxSize, 10) : 50;
+  if(meta.connected.length >= maxSize) {
     return NextResponse.redirect(new URL("/?error=room-full",req.url))
   }
 
