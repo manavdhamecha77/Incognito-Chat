@@ -17,12 +17,11 @@ Rooms and messages automatically expire, ensuring conversations are never stored
 
 ## Features
 
-- Temporary chat rooms with automatic deletion (10-minute TTL)
+- Temporary chat rooms with automatic deletion
 - Real-time messaging
 - Anonymous users (no sign-up or accounts)
-- Shareable room links
+- Shareable room codes
 - Manual room destruction
-- Maximum 50 users per room
 - Live countdown until room expiration
 
 
@@ -103,8 +102,6 @@ Steps:
 
 - Room passwords / short access codes
 - Message reactions & typing indicators
-- Dark mode toggle
-- Custom room expiration times
 - QR code for mobile sharing
 
 ---
