@@ -3,14 +3,14 @@
 Incognito Chat is a privacy-focused web application for creating temporary, self-destructing chat rooms.  
 
 <p align="center">
-  <img src="assets/lobby.png" alt="Room list" width="100%"/>
+  <img src="assets/lobby_.png" alt="Room list" width="100%"/>
 </p>
 
 
 Rooms and messages automatically expire, ensuring conversations are never stored permanently.
 
 <p align="center">
-  <img src="assets/room.png" alt="Room list" width="100%"/>
+  <img src="assets/room_.png" alt="Room list" width="100%"/>
 </p>
 
 
