@@ -6,6 +6,7 @@ const message = z.object({
     id: z.string(),
     sender: z.string(),
     text: z.string(),
+    kind: z.enum(["message", "join"]).optional(),
     timestamp: z.number(),
     roomId: z.string(),
     token: z.string().optional(),

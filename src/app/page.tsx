@@ -56,11 +56,11 @@ function Home() {
 
   return (
     <main
-      className="theme-root flex min-h-screen flex-col items-center justify-center p-4"
+      className="theme-root flex h-dvh min-h-0 flex-col items-center justify-center overflow-hidden p-3 sm:p-4"
       data-theme={theme}
       suppressHydrationWarning
     >
-      <div className="w-full max-w-md space-y-8">
+      <div className="w-full max-w-md space-y-4 sm:space-y-8">
       
         {wasDestroyed && <div className="bg-red-300 border-4 border-black p-4 text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
           <p className="text-black text-sm font-black uppercase tracking-wider">ROOM DESTROYED</p>
@@ -94,7 +94,7 @@ function Home() {
           </p>
         </div>
 
-        <div className="border-4 border-black bg-white p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] space-y-6">
+        <div className="border-4 border-black bg-white p-4 sm:p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] space-y-4 sm:space-y-6">
           {/* Top-Right Toggle Switcher */}
           <div className="flex justify-end gap-3 pb-2">
             <button
@@ -179,7 +179,7 @@ function Home() {
               <button
                 onClick={() => createRoom()}
                 disabled={isPending}
-                className="w-full bg-lime-400 text-black border-4 border-black p-4 font-black text-sm uppercase tracking-wider shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all cursor-pointer flex items-center justify-center gap-2 rounded-none disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-lime-400 text-black border-4 border-black p-3 sm:p-4 font-black text-sm uppercase tracking-wider shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all cursor-pointer flex items-center justify-center gap-2 rounded-none disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isPending ? (
                   <>
@@ -228,7 +228,7 @@ function Home() {
               <button
                 type="submit"
                 disabled={!roomIdInput.trim() || isPending}
-                className="w-full bg-cyan-400 text-black border-4 border-black p-4 font-black text-sm uppercase tracking-wider shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all cursor-pointer flex items-center justify-center gap-2 rounded-none disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-cyan-400 text-black border-4 border-black p-3 sm:p-4 font-black text-sm uppercase tracking-wider shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all cursor-pointer flex items-center justify-center gap-2 rounded-none disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 JOIN ROOM
               </button>

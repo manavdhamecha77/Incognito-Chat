@@ -57,28 +57,36 @@ const rooms = new Elysia({ prefix: "/room" })
 
   .post(
     "/join",
-    async ({ query }) => {
-      const roomId = query.roomId as string;
-
-      if (!roomId) {
-        throw new Error("Missing roomId");
-      }
+    async ({ body, auth }) => {
+      const roomId = auth.roomId;
 
       const roomExists = await redis.exists(`meta:${roomId}`);
       if (!roomExists) {
         throw new Error("Room does not exist");
       }
 
-      const token = nanoid();
-      const connected =
-        (await redis.hget<string[]>(`meta:${roomId}`, "connected")) || [];
+      const message: Message = {
+        id: nanoid(),
+        sender: body.username,
+        text: `${body.username} joined the room`,
+        kind: "join",
+        timestamp: Date.now(),
+        roomId,
+      };
 
-      await redis.hset(`meta:${roomId}`, { connected: [...connected, token] });
+      await redis.rpush(`messages:${roomId}`, message);
+      await realtime.channel(roomId).emit("chat.message", message);
 
-      return { token };
+      const remaining = await redis.ttl(`meta:${roomId}`);
+      if (remaining > 0) {
+        await redis.expire(`messages:${roomId}`, remaining);
+      }
+
+      return { joined: true };
     },
     {
       query: z.object({ roomId: z.string() }),
+      body: z.object({ username: z.string().min(1).max(100) }),
     },
   );
 
